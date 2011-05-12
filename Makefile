@@ -42,7 +42,7 @@ MCU = atmega8
 
 # Main Oscillator Frequency
 # This is only used to define F_OSC in all assembler and c-sources.
-F_OSC = 8000000
+F_OSC = 4000000
 
 # Output format. (can be srec, ihex, binary)
 FORMAT = ihex
@@ -52,7 +52,7 @@ TARGET = main
 
 
 # List C source files here. (C dependencies are automatically generated.)
-SRC = 
+SRC = spi.c ads1194.c main.c
 
 
 # List Assembler source files here.
@@ -90,7 +90,7 @@ EXTRAINCDIRS =
 CSTANDARD = -std=gnu99
 
 # Place -D or -U options here
-CDEFS =
+CDEFS = -DF_CPU=F_OSC
 
 # Place -I options here
 CINCS =
