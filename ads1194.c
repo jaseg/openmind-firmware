@@ -107,7 +107,7 @@ uint8_t ads_read_register(uint8_t address){
 }
 
 void ads_write_register(uint8_t address, uint8_t value){
-	spi_send(0x20 | (address&0x0F));
+	spi_send(0x40 | (address&0x0F));
 	spi_send(0x00);
 	spi_send(value);
 }

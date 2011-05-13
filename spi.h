@@ -28,6 +28,6 @@
 #define SS_PIN		2
 
 extern void spi_init(void);
-extern void spi_send(uint8_t data);
+extern uint8_t spi_send(uint8_t data);
 
 #endif//__SPI_H__

@@ -30,13 +30,13 @@ int main(void){
 	_delay_ms(500); //Wait for the ads's internal reference to settle
 	ads_init_pass4();
 	//The ads is ready for use!
-	uint8_t val[4];
+	uint8_t val=0;
 	while(1){
-		ads_read_registers(ADS_REG_ID, 4, val);
+		val = ads_read_register(ADS_REG_ID);
 		uint8_t i=0;
-		while(i<8){
-			uint8_t tmp=val[i>>1];
-			if(i&1)
+		while(i<2){
+			uint8_t tmp=val;
+			if(i)
 				tmp&=0x0F;
 			else
 				tmp>>=4;
