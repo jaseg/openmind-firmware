@@ -62,21 +62,25 @@ void ads_init_pass3(){
 	ADS_RESET_PORT |= 1<<ADS_RESET_PIN;
 	_delay_us(16); //according to the datasheet at least 18 t_clk
 	               //(where t_clk means the ads's t_clk i.e. 1/2048kHz) 
-	//Congratulations, your ADS1194 just went alive!
 	spi_send(ADS_SDATAC);
-	ads_write_register(ADS_REG_CONFIG3, 0x80);
+	//enable internal reference, set vref to 4V
+	ads_write_register(ADS_REG_CONFIG3, 0xE0);
 }
 
 /* This method is run when the ads's internal reference has settled. So far I
  * did only estimate the time needed for that, I begin with 500ms.
  */
 void ads_init_pass4(){
-	ads_write_register(ADS_REG_CONFIG1, 0x06);
-	ads_write_register(ADS_REG_CONFIG2, 0x00);
+	//Disable daisy-chain mode, set sample rate to 125SPS
+	ads_write_register(ADS_REG_CONFIG1, 0x46);
+	//Nothing special
+	ads_write_register(ADS_REG_CONFIG2, 0x20);
+	//Set PGA gain to 6, short inputs
 	ads_write_register(ADS_REG_CH1SET, 0x01);
 	ads_write_register(ADS_REG_CH2SET, 0x01);
 	ads_write_register(ADS_REG_CH3SET, 0x01);
 	ads_write_register(ADS_REG_CH4SET, 0x01);
+	//Congratulations, your ADS1194 just went alive!
 }
 
 /* These methods assume the spi interface is clocked at 4MHz at maximum. According to the ads's
