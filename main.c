@@ -26,7 +26,10 @@ int main(void){
 	_delay_ms(500); //Wait for the power supplies to settle (Should not need that much time)
 	ads_init_pass2();
 	_delay_ms(1000); //Wait for the ads to initialize...
-	ads_init_pass3();
+	while(1){
+		ads_init_pass3();
+		_delay_ms(10);
+	}
 	_delay_ms(500); //Wait for the ads's internal reference to settle
 	ads_init_pass4();
 	//The ads is ready for use!
