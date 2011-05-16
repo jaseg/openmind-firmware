@@ -52,7 +52,7 @@ TARGET = main
 
 
 # List C source files here. (C dependencies are automatically generated.)
-SRC = spi.c ads1194.c main.c
+SRC = spi.c ads1194.c main.c debug.c
 
 
 # List Assembler source files here.

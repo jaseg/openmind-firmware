@@ -21,6 +21,8 @@
 #include <util/delay.h>
 
 int main(void){
+	debug_init();
+	debug_send_p(PSTR("OpenMind version dev0.1 starting."));
 	ads_init_pass1();
 	DDRD |= 0x1C;
 	_delay_ms(500); //Wait for the power supplies to settle (Should not need that much time)
