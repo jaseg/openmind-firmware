@@ -35,7 +35,7 @@ int main(void){
 		PORTD|=0x02;
 		ads_read_register(ADS_REG_ID);
 		PORTD&=0xFD;
-		_delay_ms(1);
+		_delay_us(100);
 	}
 	//The ads is ready for use!
 	uint8_t val=0;
