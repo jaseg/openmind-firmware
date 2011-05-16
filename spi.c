@@ -23,7 +23,8 @@
 void spi_init(){
 	SPI_DDR |= (1<<MOSI_PIN) | (1<<SCK_PIN) | (1<<SS_PIN);
 	//SPI enabled, master, \frac{f_{osc}}{64}=62500kHz data rate
-	SPCR = (1<<SPE) | (1<<MSTR) | (1<<SPR1);
+	//SPI mode 1, it took a few days to figure that out...
+	SPCR = (1<<SPE) | (1<<MSTR) | (1<<SPR1) | (1<<CPHA);
 }
 
 uint8_t spi_send(uint8_t data){

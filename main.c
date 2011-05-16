@@ -26,12 +26,17 @@ int main(void){
 	_delay_ms(500); //Wait for the power supplies to settle (Should not need that much time)
 	ads_init_pass2();
 	_delay_ms(1000); //Wait for the ads to initialize...
-	while(1){
-		ads_init_pass3();
-		_delay_ms(10);
-	}
+	ads_init_pass3();
+	_delay_ms(4);
 	_delay_ms(500); //Wait for the ads's internal reference to settle
 	ads_init_pass4();
+	DDRD|=0x02;
+	while(1){
+		PORTD|=0x02;
+		ads_read_register(ADS_REG_ID);
+		PORTD&=0xFD;
+		_delay_ms(1);
+	}
 	//The ads is ready for use!
 	uint8_t val=0;
 	while(1){
