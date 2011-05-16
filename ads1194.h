@@ -44,7 +44,7 @@ extern void ads_read_registers(uint8_t address, uint8_t count, uint8_t* buffer);
 extern void ads_write_registers(uint8_t address, uint8_t count, uint8_t* buffer);
 extern uint8_t ads_read_register(uint8_t address);
 extern void ads_write_register(uint8_t address, uint8_t value);
-extern void ads_send_command(uint8_t command);
+extern uint8_t ads_spi_send(uint8_t data);
 
 //ADS1X9X SPI commands
 #define ADS_WAKEUP	0x02

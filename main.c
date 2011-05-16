@@ -30,6 +30,7 @@ int main(void){
 	_delay_ms(4);
 	_delay_ms(500); //Wait for the ads's internal reference to settle
 	ads_init_pass4();
+	/*
 	DDRD|=0x02;
 	while(1){
 		PORTD|=0x02;
@@ -37,10 +38,11 @@ int main(void){
 		PORTD&=0xFD;
 		_delay_us(100);
 	}
+	*/
 	//The ads is ready for use!
 	uint8_t val=0;
 	while(1){
-		val = ads_read_register(ADS_REG_ID);
+		val = ads_read_register(ADS_REG_CONFIG3);
 		uint8_t i=0;
 		while(i<2){
 			uint8_t tmp=val;
@@ -61,9 +63,9 @@ int main(void){
 			i++;
 		}
 		PORTD |= 0x04;
-		_delay_ms(2000);
+		_delay_ms(1000);
 		PORTD &= ~0x04;
-		_delay_ms(2000);
+		_delay_ms(1000);
 	}
 }
 
