@@ -28,7 +28,10 @@
 extern void debug_init(void);
 extern void debug_send_c(char c);
 extern void debug_send_s(char* str);
-extern void debug_send_hex(uint8_t v);
 extern void debug_send_p(char* s);
+extern void debug_send_hex(uint8_t v);
+extern void debug_send_hex_raw(uint8_t v);
+extern void debug_begin(void);
+extern void debug_end(void);
 
 #endif//__DEBUG_H__

@@ -94,7 +94,7 @@ void ads_init_pass4(){
  */
 void ads_read_registers(uint8_t address, uint8_t count, uint8_t* buffer){
 	ADS_CS_PORT &= ~(1<<ADS_CS_PIN);
-	spi_send(0x20 | (address&0x0F));
+	spi_send(0x20 | (address&0x1F));
 	spi_send((count-1)&0x1F);
 	for(uint8_t i=0;i<count;i++){
 		buffer[i] = spi_send(0x00);
@@ -104,7 +104,7 @@ void ads_read_registers(uint8_t address, uint8_t count, uint8_t* buffer){
 
 void ads_write_registers(uint8_t address, uint8_t count, uint8_t* buffer){
 	ADS_CS_PORT &= ~(1<<ADS_CS_PIN);
-	spi_send(0x40 | (address&0x0F));
+	spi_send(0x40 | (address&0x1F));
 	spi_send((count-1)&0x1F);
 	for(uint8_t i=0;i<count;i++){
 		spi_send(buffer[i]);
@@ -113,15 +113,17 @@ void ads_write_registers(uint8_t address, uint8_t count, uint8_t* buffer){
 }
 
 uint8_t ads_read_register(uint8_t address){
-	ADS_CS_PORT &= ~(1<<ADS_CS_PIN);	spi_send(0x20 | (address&0x0F));
+	ADS_CS_PORT &= ~(1<<ADS_CS_PIN);
+	spi_send(0x20 | (address&0x1F));
 	spi_send(0x00);
-	return spi_send(0x00);
+	uint8_t ret = spi_send(0x00);
 	ADS_CS_PORT |= (1<<ADS_CS_PIN);
+	return ret;
 }
 
 void ads_write_register(uint8_t address, uint8_t value){
 	ADS_CS_PORT &= ~(1<<ADS_CS_PIN);
-	spi_send(0x40 | (address&0x0F));
+	spi_send(0x40 | (address&0x1F));
 	spi_send(0x00);
 	spi_send(value);
 	ADS_CS_PORT |= (1<<ADS_CS_PIN);

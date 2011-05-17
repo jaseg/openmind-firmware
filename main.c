@@ -24,7 +24,6 @@
 int main(void){
 	debug_init();
 	ads_init_pass1();
-	debug_send_p(PSTR("OpenMind version dev0.1 starting."));
 	DDRD |= 0x1C; //LED outputs
 	PORTD |= 0x010;
 	_delay_ms(500); //Wait for the power supplies to settle (Should not need that much time)
@@ -36,22 +35,30 @@ int main(void){
 	ads_init_pass4();
 	PORTD &= 0xEF;
 	PORTD |= 0x08;
-	/*
-	DDRD|=0x02;
-	while(1){
-		PORTD|=0x02;
-		ads_read_register(ADS_REG_ID);
-		PORTD&=0xFD;
-		_delay_us(100);
-	}
-	*/
+	debug_send_p(PSTR("OpenMind version dev0.1 started."));
 	//The ads is ready for use!
-	uint8_t val=0;
+	uint8_t val[0x1A];
+	uint8_t i=0;
+	debug_send_p(PSTR("Register dump:"));
 	while(1){
-		//debug_send_p(PSTR("Hello world!"));
-		val = ads_read_register(ADS_REG_CONFIG3);
-		uint8_t i=0;
-		/*while(i<2){
+		//val[i] = ads_read_register(i);
+		ads_read_registers(0x00, 0x1A, val);
+		PORTD ^=0x04;
+		//i++;
+		//if(i>0x19){
+		//	i=0;
+			debug_begin();
+			for(i=0; i<0x1A; i++){
+				debug_send_hex_raw(val[i]);
+				_delay_ms(50);
+				spi_send(' ');
+				_delay_ms(100);
+			}
+			debug_end();
+		//	i=0;
+		//}
+		/*
+		while(i<2){
 			uint8_t tmp=val;
 			if(i)
 				tmp&=0x0F;
@@ -69,10 +76,12 @@ int main(void){
 			_delay_ms(500);
 			i++;
 		}
+		i=0;
 		PORTD |= 0x04;
 		_delay_ms(1000);
 		PORTD &= ~0x04;
-		_delay_ms(1000);*/
+		_delay_ms(1000);
+		*/
 	}
 }
 
