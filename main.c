@@ -35,7 +35,7 @@ int main(void){
 	ads_init_pass4();
 	PORTD &= 0xEF;
 	PORTD |= 0x08;
-	debug_send_p(PSTR("OpenMind version dev0.1 started."));
+	debug_send_p(PSTR("OpenMind version dev0.2 started."));
 	//The ads is ready for use!
 	uint8_t val[0x1A];
 	uint8_t i=0;
