@@ -18,13 +18,15 @@
 
 #include "main.h"
 #include "ads1194.h"
+#include "debug.h"
 #include <util/delay.h>
 
 int main(void){
 	debug_init();
-	debug_send_p(PSTR("OpenMind version dev0.1 starting."));
 	ads_init_pass1();
-	DDRD |= 0x1C;
+	debug_send_p(PSTR("OpenMind version dev0.1 starting."));
+	DDRD |= 0x1C; //LED outputs
+	PORTD |= 0x010;
 	_delay_ms(500); //Wait for the power supplies to settle (Should not need that much time)
 	ads_init_pass2();
 	_delay_ms(1000); //Wait for the ads to initialize...
@@ -32,6 +34,8 @@ int main(void){
 	_delay_ms(4);
 	_delay_ms(500); //Wait for the ads's internal reference to settle
 	ads_init_pass4();
+	PORTD &= 0xEF;
+	PORTD |= 0x08;
 	/*
 	DDRD|=0x02;
 	while(1){
@@ -44,9 +48,10 @@ int main(void){
 	//The ads is ready for use!
 	uint8_t val=0;
 	while(1){
+		//debug_send_p(PSTR("Hello world!"));
 		val = ads_read_register(ADS_REG_CONFIG3);
 		uint8_t i=0;
-		while(i<2){
+		/*while(i<2){
 			uint8_t tmp=val;
 			if(i)
 				tmp&=0x0F;
@@ -67,7 +72,7 @@ int main(void){
 		PORTD |= 0x04;
 		_delay_ms(1000);
 		PORTD &= ~0x04;
-		_delay_ms(1000);
+		_delay_ms(1000);*/
 	}
 }
 

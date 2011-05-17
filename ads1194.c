@@ -46,6 +46,7 @@ void ads_init_pass1(){
  */
 void ads_init_pass2(){
 	//This would be the place to set the ads's cksel line.
+	ADS_CS_PORT	|= 1<<ADS_CS_PIN;
 	ADS_RESET_PORT	|= 1<<ADS_RESET_PIN;
 	ADS_PWDN_PORT	|= 1<<ADS_PWDN_PIN;
 }
