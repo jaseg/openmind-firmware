@@ -47,14 +47,24 @@ extern void ads_write_register(uint8_t address, uint8_t value);
 extern uint8_t ads_spi_send(uint8_t data);
 
 //ADS1X9X SPI commands
-#define ADS_WAKEUP	0x02
-#define ADS_STANDBY	0x04
-#define ADS_RESET	0x06
-#define ADS_START	0x08
-#define ADS_STOP	0x0A
-#define ADS_RDATAC	0x10
-#define ADS_SDATAC	0x11
-#define ADS_RDATA	0x12
+#define ADS_CMD_WAKEUP	0x02
+#define ADS_CMD_STANDBY	0x04
+#define ADS_CMD_RESET	0x06
+#define ADS_CMD_START	0x08
+#define ADS_CMD_STOP	0x0A
+#define ADS_CMD_RDATAC	0x10
+#define ADS_CMD_SDATAC	0x11
+#define ADS_CMD_RDATA	0x12
+
+//ADS1X9X command macros
+#define ads_wakeup()	ads_spi_send(ADS_CMD_WAKEUP)
+#define ads_standby()	ads_spi_send(ADS_CMD_STANDBY)
+#define ads_reset()	ads_spi_send(ADS_CMD_RESET)
+#define ads_start()	ads_spi_send(ADS_CMD_START)
+#define ads_stop()	ads_spi_send(ADS_CMD_STOP)
+#define ads_rdatac()	ads_spi_send(ADS_CMD_RDATAC)
+#define ads_sdatac()	ads_spi_send(ADS_CMD_SDATAC)
+#define ads_rdata()	ads_spi_send(ADS_CMD_RDATA)
 
 //ADS119X register addresses
 #define ADS_REG_ID		0x00

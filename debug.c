@@ -38,7 +38,7 @@ void debug_send_hex(uint8_t v){
 	uint8_t h=v>>4;
 	DEBUG_CS_PORT &= ~(1<<DEBUG_CS_PIN);
 	spi_send((h&0x0F)<0x0A?0x30+(h&0x0F):0x37+(h&0x0F));
-	_delay_ms(10);
+	_delay_us(400);
 	spi_send((v&0x0F)<0x0A?0x30+(v&0x0F):0x37+(v&0x0F));
 	DEBUG_CS_PORT |= (1<<DEBUG_CS_PIN);
 }
@@ -46,7 +46,7 @@ void debug_send_hex(uint8_t v){
 void debug_send_hex_raw(uint8_t v){
 	uint8_t h=v>>4;
 	spi_send((h&0x0F)<0x0A?0x30+(h&0x0F):0x37+(h&0x0F));
-	_delay_ms(50);
+	_delay_us(400);
 	spi_send((v&0x0F)<0x0A?0x30+(v&0x0F):0x37+(v&0x0F));
 }
 

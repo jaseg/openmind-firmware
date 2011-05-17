@@ -63,8 +63,8 @@ void ads_init_pass3(){
 	ADS_RESET_PORT |= 1<<ADS_RESET_PIN;
 	_delay_us(16); //according to the datasheet at least 18 t_clk
 	               //(where t_clk means the ads's t_clk i.e. 1/2048kHz) 
-	ads_spi_send(ADS_SDATAC);
-	ads_spi_send(ADS_STOP);
+	ads_sdatac();
+	ads_stop();
 	//enable internal reference, set vref to 4V
 	ads_write_register(ADS_REG_CONFIG3, 0xE0);
 }

@@ -50,9 +50,9 @@ int main(void){
 			debug_begin();
 			for(i=0; i<0x1A; i++){
 				debug_send_hex_raw(val[i]);
-				_delay_ms(50);
+				_delay_us(400);
 				spi_send(' ');
-				_delay_ms(100);
+				_delay_us(400);
 			}
 			debug_end();
 		//	i=0;
