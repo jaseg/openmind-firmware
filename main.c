@@ -40,48 +40,18 @@ int main(void){
 	uint8_t val[0x1A];
 	uint8_t i=0;
 	debug_send_p(PSTR("Register dump:"));
+	debug_begin();
+	ads_read_registers(0x00, 0x1A, val);
+	for(i=0; i<0x1A; i++){
+		debug_send_hex_raw(val[i]);
+		_delay_us(400);
+		spi_send(' ');
+		_delay_us(400);
+	}
+	debug_end();
 	while(1){
-		//val[i] = ads_read_register(i);
-		ads_read_registers(0x00, 0x1A, val);
 		PORTD ^=0x04;
-		//i++;
-		//if(i>0x19){
-		//	i=0;
-			debug_begin();
-			for(i=0; i<0x1A; i++){
-				debug_send_hex_raw(val[i]);
-				_delay_us(400);
-				spi_send(' ');
-				_delay_us(400);
-			}
-			debug_end();
-		//	i=0;
-		//}
-		/*
-		while(i<2){
-			uint8_t tmp=val;
-			if(i)
-				tmp&=0x0F;
-			else
-				tmp>>=4;
-			for(uint8_t j=0; j<tmp; j++){
-				PORTD |= 0x10;
-				_delay_ms(250);
-				PORTD &= ~0x10;
-				_delay_ms(250);
-			}
-			PORTD |= 0x08;
-			_delay_ms(500);
-			PORTD &= ~0x08;
-			_delay_ms(500);
-			i++;
-		}
-		i=0;
-		PORTD |= 0x04;
-		_delay_ms(1000);
-		PORTD &= ~0x04;
-		_delay_ms(1000);
-		*/
+		_delay_ms(333);
 	}
 }
 
