@@ -33,3 +33,10 @@ uint8_t spi_send(uint8_t data){
 	return SPDR;
 }
 
+void spi_read(uint8_t* buf, uint8_t len){
+	uint8_t* end=buf+(len-1);
+	while(buf!=end){
+		*(buf++)=spi_send(0x00);
+	}
+}
+

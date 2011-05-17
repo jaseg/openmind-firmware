@@ -19,5 +19,7 @@
 #define __MAIN_H__
 #include <avr/io.h>
 
+void debug_send_ads_registers(void);
+
 #endif//__MAIN_H__
 

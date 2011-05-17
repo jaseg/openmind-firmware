@@ -52,7 +52,6 @@ void debug_send_hex_raw(uint8_t v){
 
 void debug_send_p(char* s){
 	char c;
-	uint8_t i=0;
 	DEBUG_CS_PORT &= ~(1<<DEBUG_CS_PIN);
 	while((c=pgm_read_byte(s++))){
 		_delay_us(20);

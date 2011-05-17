@@ -77,7 +77,7 @@ void ads_init_pass4(){
 	//Disable daisy-chain mode, set sample rate to 125SPS
 	ads_write_register(ADS_REG_CONFIG1, 0x46);
 	//Nothing special
-	ads_write_register(ADS_REG_CONFIG2, 0x20);
+	ads_write_register(ADS_REG_CONFIG2, 0x30);
 	//Set PGA gain to 6, short inputs
 	ads_write_register(ADS_REG_CH1SET, 0x01);
 	ads_write_register(ADS_REG_CH2SET, 0x01);
@@ -93,46 +93,46 @@ void ads_init_pass4(){
  * FIXME The whole spi stuff is still synchronous, so a slow spi speed means a slow program.
  */
 void ads_read_registers(uint8_t address, uint8_t count, uint8_t* buffer){
-	ADS_CS_PORT &= ~(1<<ADS_CS_PIN);
+	ads_select();
 	spi_send(0x20 | (address&0x1F));
 	spi_send((count-1)&0x1F);
 	for(uint8_t i=0;i<count;i++){
 		buffer[i] = spi_send(0x00);
 	}
-	ADS_CS_PORT |= (1<<ADS_CS_PIN);
+	ads_deselect();
 }
 
 void ads_write_registers(uint8_t address, uint8_t count, uint8_t* buffer){
-	ADS_CS_PORT &= ~(1<<ADS_CS_PIN);
+	ads_select();
 	spi_send(0x40 | (address&0x1F));
 	spi_send((count-1)&0x1F);
 	for(uint8_t i=0;i<count;i++){
 		spi_send(buffer[i]);
 	}
-	ADS_CS_PORT |= (1<<ADS_CS_PIN);
+	ads_deselect();
 }
 
 uint8_t ads_read_register(uint8_t address){
-	ADS_CS_PORT &= ~(1<<ADS_CS_PIN);
+	ads_select();
 	spi_send(0x20 | (address&0x1F));
 	spi_send(0x00);
 	uint8_t ret = spi_send(0x00);
-	ADS_CS_PORT |= (1<<ADS_CS_PIN);
+	ads_deselect();
 	return ret;
 }
 
 void ads_write_register(uint8_t address, uint8_t value){
-	ADS_CS_PORT &= ~(1<<ADS_CS_PIN);
+	ads_select();
 	spi_send(0x40 | (address&0x1F));
 	spi_send(0x00);
 	spi_send(value);
-	ADS_CS_PORT |= (1<<ADS_CS_PIN);
+	ads_deselect();
 }
 
 uint8_t ads_spi_send(uint8_t data){
-	ADS_CS_PORT &= ~(1<<ADS_CS_PIN);
+	ads_select();
 	uint8_t ret = spi_send(data);
-	ADS_CS_PORT |= (1<<ADS_CS_PIN);
+	ads_deselect();
 	return ret;
 }
 

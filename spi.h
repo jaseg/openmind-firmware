@@ -29,5 +29,6 @@
 
 extern void spi_init(void);
 extern uint8_t spi_send(uint8_t data);
+extern void spi_read(uint8_t* buf, uint8_t len);
 
 #endif//__SPI_H__

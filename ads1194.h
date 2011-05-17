@@ -20,6 +20,7 @@
 #ifndef __ADS1194_H__
 #define __ADS1194_H__
 #include <avr/io.h>
+#include "spi.h"
 
 #define ADS_PWDN_DDR	DDRC
 #define ADS_PWDN_PORT	PORTC
@@ -33,9 +34,20 @@
 #define ADS_START_DDR	DDRC
 #define ADS_START_PORT	PORTC
 #define ADS_START_PIN	2
-#define ADS_DRDY_INPUT	PORTC
+#define ADS_DRDY_INPUT	PINC
 #define ADS_DRDY_PIN	0
 
+typedef struct {
+	struct {
+		uint8_t padding:4;
+		uint8_t loff_statp;
+		uint8_t loff_statn;
+		uint8_t gpio_data:4;
+	} stat;
+	uint16_t ch[4];
+} sample_data;
+
+//API functions
 extern void ads_init_pass1(void);
 extern void ads_init_pass2(void);
 extern void ads_init_pass3(void);
@@ -45,6 +57,12 @@ extern void ads_write_registers(uint8_t address, uint8_t count, uint8_t* buffer)
 extern uint8_t ads_read_register(uint8_t address);
 extern void ads_write_register(uint8_t address, uint8_t value);
 extern uint8_t ads_spi_send(uint8_t data);
+inline uint8_t ads_data_ready(void);
+inline void ads_read(sample_data* sample);
+
+//Low-level functions
+inline void ads_select(void);
+inline void ads_deselect(void);
 
 //ADS1X9X SPI commands
 #define ADS_CMD_WAKEUP	0x02
@@ -93,5 +111,26 @@ extern uint8_t ads_spi_send(uint8_t data);
 #define ADS_REG_CONFIG4		0x17
 #define ADS_REG_WCT1		0x18
 #define ADS_REG_WCT2		0x19
+
+inline void ads_select(){
+	ADS_CS_PORT &= ~(1<<ADS_CS_PIN);
+}
+
+inline void ads_deselect(){
+	ADS_CS_PORT |= (1<<ADS_CS_PIN);
+}
+
+/* This method tests whether the ads signalizes the readiness of data by pulling
+ * its !DRDY pin low.
+ */
+inline uint8_t ads_data_ready(){
+	return !(ADS_DRDY_INPUT&ADS_DRDY_PIN);
+}
+
+inline void ads_read(sample_data* sample){
+	ads_select();
+	spi_read((uint8_t*)sample, sizeof(sample_data));
+	ads_deselect();
+}
 
 #endif//__ADS1194_H__
