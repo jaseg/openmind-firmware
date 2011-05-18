@@ -43,12 +43,14 @@ int main(void){
 			sample_data sample;
 			ads_read(&sample);
 			debug_begin();
-			debug_send_hex_raw(sample.ch[3]>>8);
-			_delay_us(400);
-			debug_send_hex_raw(sample.ch[3]&0xFF);
-			_delay_us(400);
-			spi_send(' ');
-			_delay_us(400);
+			for(uint8_t i=0; i<4; i++){
+				debug_send_hex_raw(sample.ch[i]>>8);
+				_delay_us(400);
+				debug_send_hex_raw(sample.ch[i]&0xFF);
+				_delay_us(400);
+				spi_send(' ');
+				_delay_us(400);
+			}
 			debug_end();
 		}
 	}

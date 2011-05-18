@@ -20,6 +20,9 @@
 #include "ads1194.h"
 #include "spi.h"
 
+#define LO(x) ((unsigned char) ((x) & 0x00ff))
+#define HI(x) ((unsigned char) (((x) >> 8) & 0x00ff))
+
 /* FIXME/Note:
  * This method assumes nothing else than the ADS is on the spi when the !CS pin of the ADS is
  * pulled low. If you want to change this, you will have to pull it low each time a command or
@@ -79,12 +82,26 @@ void ads_init_pass4(){
 	//Nothing special
 	ads_write_register(ADS_REG_CONFIG2, 0x30);
 	//Set PGA gain to 6, short inputs
-	ads_write_register(ADS_REG_CH1SET, 0x01);
-	ads_write_register(ADS_REG_CH2SET, 0x01);
-	ads_write_register(ADS_REG_CH3SET, 0x01);
-	ads_write_register(ADS_REG_CH4SET, 0x01);
+	ads_write_register(ADS_REG_CH1SET, 0x05);
+	ads_write_register(ADS_REG_CH2SET, 0x05);
+	ads_write_register(ADS_REG_CH3SET, 0x05);
+	ads_write_register(ADS_REG_CH4SET, 0x05);
 	//Congratulations, your ADS1194 just went alive!
 	
+}
+
+void ads_read(sample_data* sample){
+	ads_select();
+	uint8_t* buf=(uint8_t*)sample;
+	uint8_t* end=(uint8_t*)(sample+(sizeof(sample_data)));
+	while(buf != end){
+		*(buf++)=spi_send(0x00);
+	}
+	for(uint8_t i=0; i<4; i++){
+		uint16_t tmp = ((LO(sample->ch[i])<<8) | (HI(sample->ch[i])));
+		sample->ch[i] = tmp;
+	}
+	ads_deselect();
 }
 
 /* These methods assume the spi interface is clocked at 4MHz at maximum. According to the ads's

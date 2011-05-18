@@ -40,8 +40,8 @@
 typedef struct {
 	struct {
 		uint8_t padding:4;
-		uint8_t loff_statp;
-		uint8_t loff_statn;
+		uint8_t loff_statp:8;
+		uint8_t loff_statn:8;
 		uint8_t gpio_data:4;
 	} stat;
 	uint16_t ch[4];
@@ -58,7 +58,7 @@ extern uint8_t ads_read_register(uint8_t address);
 extern void ads_write_register(uint8_t address, uint8_t value);
 extern uint8_t ads_spi_send(uint8_t data);
 inline uint8_t ads_data_ready(void);
-inline void ads_read(sample_data* sample);
+void ads_read(sample_data* sample);
 
 //Low-level functions
 inline void ads_select(void);
@@ -125,12 +125,6 @@ inline void ads_deselect(){
  */
 inline uint8_t ads_data_ready(){
 	return !(ADS_DRDY_INPUT&ADS_DRDY_PIN);
-}
-
-inline void ads_read(sample_data* sample){
-	ads_select();
-	spi_read((uint8_t*)sample, sizeof(sample_data));
-	ads_deselect();
 }
 
 #endif//__ADS1194_H__
