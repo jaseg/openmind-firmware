@@ -84,8 +84,8 @@ void ads_init_pass4(){
 	//Set PGA gain to 6, short inputs
 	ads_write_register(ADS_REG_CH1SET, 0x05);
 	ads_write_register(ADS_REG_CH2SET, 0x05);
-	ads_write_register(ADS_REG_CH3SET, 0x05);
-	ads_write_register(ADS_REG_CH4SET, 0x05);
+	ads_write_register(ADS_REG_CH3SET, 0x04);
+	ads_write_register(ADS_REG_CH4SET, 0x04);
 	//Congratulations, your ADS1194 just went alive!
 	
 }

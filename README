@@ -1,0 +1,6 @@
+First off: This is still work in progress, so don't rely on it.
+
+In fact, this stuff works -- it sends the measured values via SPI (for now).
+More to come. The ADS1194/ADS1XXX driver (with a little modding it is easily
+usable for other TI ADCs) does work quite well and I consider that part as
+'final'.
