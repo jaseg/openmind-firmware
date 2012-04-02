@@ -18,7 +18,7 @@
 #include "spi.h"
 
 /* Caution: this function sets the SS pin to output. The SS pin is not needed,
- * but must be an output.
+ * but must be an output. (does this contradict itself?)
  */
 void spi_init(){
 	SPI_DDR |= (1<<MOSI_PIN) | (1<<SCK_PIN) | (1<<SS_PIN);
